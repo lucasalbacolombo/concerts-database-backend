@@ -15,7 +15,7 @@ router.post('/add-new', async (req, res) => {
 //READ ALL
 router.get('/all-concerts', async (req, res) => {
 	try {
-		const allConcerts = await concerts.find();
+		const allConcerts = await concerts.find().populate('review');
 		return res.status(200).json(allConcerts);
 	} catch (err) {
 		console.error(err);
@@ -28,7 +28,8 @@ router.get('/:id', async (req, res) => {
 	try {
 		const { id } = req.params;
 
-		const concert = await concerts.findOne({ _id: id });
+		const concert = await concerts.findOne({ _id: id }).populate('review');
+
 		return res.status(200).json(concert);
 	} catch (err) {
 		console.error(err);
